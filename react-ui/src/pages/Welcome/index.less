@@ -1,0 +1,40 @@
+.copilot-textarea-wrapper {
+  width: 100%;
+}
+
+.copilot-textarea-wrapper textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.copilot-textarea-wrapper textarea:focus {
+  outline: none;
+  border-color: #1890ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+/* 暗色主题适配 */
+[data-theme='dark'] .copilot-textarea-wrapper textarea {
+  background-color: #141414;
+  border-color: #434343;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+[data-theme='dark'] .copilot-textarea-wrapper textarea:focus {
+  border-color: #177ddc;
+  box-shadow: 0 0 0 2px rgba(23, 125, 220, 0.2);
+}
+
+/* AI 补全建议样式 */
+.copilot-textarea-wrapper .copilot-suggestion {
+  color: rgba(0, 0, 0, 0.45);
+}
+
+[data-theme='dark'] .copilot-textarea-wrapper .copilot-suggestion {
+  color: rgba(255, 255, 255, 0.35);
+}
