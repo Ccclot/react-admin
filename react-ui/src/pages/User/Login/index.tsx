@@ -1,5 +1,6 @@
 import Footer from '@/components/Footer';
 import { getCaptchaImg, login } from '@/services/system/auth';
+import { getRoutersInfo, setRemoteMenu } from '@/services/session';
 import {
   LockOutlined,
   UserOutlined,
@@ -166,9 +167,13 @@ const Login: React.FC = () => {
         const expireTime = current.setTime(current.getTime() + 1000 * 12 * 60 * 60);
         setSessionToken(response?.token, response?.token, expireTime);
         message.success(defaultLoginSuccessMessage);
+        // 获取菜单路由数据
+        const menuData = await getRoutersInfo();
+        setRemoteMenu(menuData);
         await fetchUserInfo();
+        // 刷新页面以重新注册路由
         const urlParams = new URL(window.location.href).searchParams;
-        history.push(urlParams.get('redirect') || '/');
+        window.location.href = urlParams.get('redirect') || '/';
         return;
       } else {
         clearSessionToken();

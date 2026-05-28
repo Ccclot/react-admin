@@ -97,7 +97,7 @@ const DataScopeForm: React.FC<DataScopeFormProps> = (props) => {
                 defaultMessage: '分配角色',
             })}
             open={props.open}
-            destroyOnClose
+            
             forceRender
             onOk={handleOk}
             onCancel={handleCancel}

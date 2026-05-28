@@ -4,10 +4,9 @@ import {
   ProFormDigit,
   ProFormText,
   ProFormRadio,
-  ProFormTreeSelect,
   ProFormSelect,
 } from '@ant-design/pro-components';
-import { Form, Modal} from 'antd';
+import { Form, Modal, TreeSelect } from 'antd';
 import { useIntl, FormattedMessage } from '@umijs/max';
 import { DataNode } from 'antd/es/tree';
 import { createIcon } from '@/utils/IconUtil';
@@ -82,7 +81,7 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
       })}
       open={props.open}
       forceRender
-      destroyOnClose
+      
       onOk={handleOk}
       onCancel={handleCancel}
     >
@@ -108,27 +107,26 @@ const MenuForm: React.FC<MenuFormProps> = (props) => {
             },
           ]}
         />
-        <ProFormTreeSelect
+        <Form.Item
           name="parentId"
           label={intl.formatMessage({
             id: 'system.menu.parent_id',
             defaultMessage: '上级菜单',
           })}
-          params={{menuTree}}
-          request={async () => {
-            return menuTree;
-          }}
-          placeholder="请输入父菜单编号"
           rules={[
             {
               required: true,
               message: <FormattedMessage id="请输入父菜单编号！" defaultMessage="请输入父菜单编号！" />,
             },
           ]}
-          fieldProps = {{
-            defaultValue: 0
-          }}
-        />
+        >
+          <TreeSelect
+            treeData={menuTree}
+            placeholder="请输入父菜单编号"
+            defaultValue={0}
+            allowClear
+          />
+        </Form.Item>
         <ProFormRadio.Group
           name="menuType"
           valueEnum={{

@@ -36,7 +36,7 @@ const OperlogDetailForm: React.FC<OperlogFormProps> = (props) => {
         defaultMessage: '编辑操作日志记录',
       })}
       open={props.open}
-      destroyOnClose
+      
       onOk={handleOk}
       onCancel={handleCancel}
     >

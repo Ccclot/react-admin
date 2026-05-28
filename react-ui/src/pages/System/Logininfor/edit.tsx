@@ -60,7 +60,7 @@ const LogininforForm: React.FC<LogininforFormProps> = (props) => {
         defaultMessage: '编辑系统访问记录',
       })}
       open={props.open}
-      destroyOnClose
+      
       forceRender
       onOk={handleOk}
       onCancel={handleCancel}

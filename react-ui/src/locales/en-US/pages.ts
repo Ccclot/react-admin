@@ -61,6 +61,7 @@ export default {
   'pages.searchTable.new': 'New',
   'pages.searchTable.edit': 'Edit',
   'pages.searchTable.delete': 'Delete',
+  'pages.searchTable.batchDelete': 'Batch Delete',
   'pages.searchTable.export': 'Export',
   'pages.searchTable.chosen': 'chosen',
   'pages.searchTable.item': 'item',

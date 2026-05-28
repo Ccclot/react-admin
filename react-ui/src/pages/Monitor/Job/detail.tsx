@@ -46,7 +46,7 @@ const OperlogForm: React.FC<OperlogFormProps> = (props) => {
         defaultMessage: '操作日志详细信息',
       })}
       open={props.open}
-      destroyOnClose
+      
       onCancel={handleCancel}
       footer={[
         <Button key="back" onClick={handleCancel}>

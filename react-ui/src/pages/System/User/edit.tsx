@@ -82,7 +82,7 @@ const UserForm: React.FC<UserFormProps> = (props) => {
         defaultMessage: '编辑用户信息',
       })}
       open={props.open}
-      destroyOnClose
+      
       onOk={handleOk}
       onCancel={handleCancel}
     >

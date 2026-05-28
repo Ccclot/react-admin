@@ -135,3 +135,13 @@ xss:
   excludes: /system/notice
   # 匹配链接
   urlPatterns: /system/*,/monitor/*,/tool/*
+
+# CopilotKit 配置
+copilotkit:
+  anthropic:
+    # API Token（请根据实际情况配置）
+    token: 9cccde2027eea22723e1d45bb9ab267d:NWM5MmIwYjQ0NjVkMjI5MzI2MjA4N2Ni
+    # API 基础地址
+    baseUrl: https://maas-coding-api.cn-huabei-1.xf-yun.com/anthropic
+    # 模型名称
+    model: astron-code-latest

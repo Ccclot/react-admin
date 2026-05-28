@@ -33,7 +33,7 @@ const PreviewTableCode: React.FC<PreviewTableProps> = (props) => {
         defaultMessage: '预览',
       })}
       open={props.open}
-      destroyOnClose
+      
       footer={false}
       onOk={() => {
         props.onHide();

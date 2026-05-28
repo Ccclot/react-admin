@@ -2,6 +2,7 @@ import { createIcon } from '@/utils/IconUtil';
 import { MenuDataItem } from '@ant-design/pro-components';
 import { request } from '@umijs/max';
 import React, { lazy } from 'react';
+import { BankOutlined } from '@ant-design/icons';
 
 
 let remoteMenu: any = null;
@@ -104,9 +105,9 @@ export function convertCompatRouters(childrens: API.RoutersMenuItem[]): any[] {
   return childrens.map((item: API.RoutersMenuItem) => {
     return {
       path: item.path,
-      icon: createIcon(item.meta.icon),
+      icon: createIcon(item.meta?.icon),
       //  icon: item.meta.icon,
-      name: item.meta.title,
+      name: item.meta?.title,
       routes: item.children ? convertCompatRouters(item.children) : undefined,
       hideChildrenInMenu: item.hidden,
       hideInMenu: item.hidden,
@@ -119,7 +120,15 @@ export function convertCompatRouters(childrens: API.RoutersMenuItem[]): any[] {
 export async function getRoutersInfo(): Promise<MenuDataItem[]> {
   return getRouters().then((res) => {
     if (res.code === 200) {
-      return convertCompatRouters(res.data);
+      const menus = convertCompatRouters(res.data);
+      // 在菜单最前面添加首页
+      const homeMenu: MenuDataItem = {
+        path: '/index',
+        name: '首页',
+        icon: React.createElement(BankOutlined),
+        component: 'Index/index',
+      };
+      return [homeMenu, ...menus];
     } else {
       return [];
     }

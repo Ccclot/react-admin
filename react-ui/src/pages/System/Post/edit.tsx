@@ -61,7 +61,7 @@ const PostForm: React.FC<PostFormProps> = (props) => {
       })}
       open={props.open}
       forceRender
-      destroyOnClose
+      
       onOk={handleOk}
       onCancel={handleCancel}
     >

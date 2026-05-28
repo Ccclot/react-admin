@@ -58,6 +58,7 @@ export default {
   'pages.searchTable.new': '新建',
   'pages.searchTable.edit': '編輯',
   'pages.searchTable.delete': '刪除',
+  'pages.searchTable.batchDelete': '批量刪除',
   'pages.searchTable.export': '導出',
   'pages.searchTable.chosen': '已選擇',
   'pages.searchTable.item': '項',

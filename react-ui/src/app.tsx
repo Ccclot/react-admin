@@ -1,4 +1,4 @@
-import { Footer, Question, SelectLang, AvatarDropdown, AvatarName } from '@/components';
+import { Footer, Question, SelectLang, AvatarDropdown, AvatarName, CopilotKitWrapper } from '@/components';
 import { LinkOutlined } from '@ant-design/icons';
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import { SettingDrawer } from '@ant-design/pro-components';
@@ -68,7 +68,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       src: initialState?.currentUser?.avatar,
       title: <AvatarName />,
       render: (_, avatarChildren) => {
-        return <AvatarDropdown menu="True">{avatarChildren}</AvatarDropdown>;
+        return <AvatarDropdown menu={true} >{avatarChildren}</AvatarDropdown>;
       },
     },
     waterMarkProps: {
@@ -130,7 +130,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     childrenRender: (children) => {
       // if (initialState?.loading) return <PageLoading />;
       return (
-        <>
+        <CopilotKitWrapper showSidebar={true}>
           {children}
           <SettingDrawer
             disableUrlParams
@@ -143,7 +143,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
               }));
             }}
           />
-        </>
+        </CopilotKitWrapper>
       );
     },
     ...initialState?.settings,
@@ -152,7 +152,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
 
 export async function onRouteChange({ clientRoutes, location }) {
   const menus = getRemoteMenu();
- // console.log('onRouteChange', clientRoutes, location, menus);
+ console.log('onRouteChange', clientRoutes, location, menus);
   if(menus === null && location.pathname !== PageEnum.LOGIN) {
     console.log('refresh')
     history.go(0);

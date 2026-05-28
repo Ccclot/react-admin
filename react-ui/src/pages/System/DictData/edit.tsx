@@ -66,7 +66,7 @@ const DictDataForm: React.FC<DataFormProps> = (props) => {
       })}
       open={props.open}
       forceRender
-      destroyOnClose
+      
       onOk={handleOk}
       onCancel={handleCancel}
     >

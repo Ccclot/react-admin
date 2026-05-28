@@ -51,7 +51,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
         defaultMessage: '密码重置',
       })}
       open={props.open}
-      destroyOnClose
+      
       onOk={handleOk}
       onCancel={handleCancel}
     >

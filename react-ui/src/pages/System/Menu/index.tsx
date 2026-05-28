@@ -19,10 +19,15 @@ import DictTag from '@/components/DictTag';
 const handleAdd = async (fields: API.System.Menu) => {
   const hide = message.loading('正在添加');
   try {
-    await addMenu({ ...fields });
+    const res = await addMenu({ ...fields });
     hide();
-    message.success('添加成功');
-    return true;
+    if (res.code === 200) {
+      message.success('添加成功');
+      return true;
+    } else {
+      message.error(res.msg || '添加失败');
+      return false;
+    }
   } catch (error) {
     hide();
     message.error('添加失败请重试！');
@@ -38,10 +43,15 @@ const handleAdd = async (fields: API.System.Menu) => {
 const handleUpdate = async (fields: API.System.Menu) => {
   const hide = message.loading('正在配置');
   try {
-    await updateMenu(fields);
+    const res = await updateMenu(fields);
     hide();
-    message.success('配置成功');
-    return true;
+    if (res.code === 200) {
+      message.success('配置成功');
+      return true;
+    } else {
+      message.error(res.msg || '配置失败');
+      return false;
+    }
   } catch (error) {
     hide();
     message.error('配置失败请重试！');
@@ -58,10 +68,15 @@ const handleRemove = async (selectedRows: API.System.Menu[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
-    await removeMenu(selectedRows.map((row) => row.menuId).join(','));
+    const res = await removeMenu(selectedRows.map((row) => row.menuId).join(','));
     hide();
-    message.success('删除成功，即将刷新');
-    return true;
+    if (res.code === 200) {
+      message.success('删除成功，即将刷新');
+      return true;
+    } else {
+      message.error(res.msg || '删除失败');
+      return false;
+    }
   } catch (error) {
     hide();
     message.error('删除失败，请重试');
@@ -74,10 +89,15 @@ const handleRemoveOne = async (selectedRow: API.System.Menu) => {
   if (!selectedRow) return true;
   try {
     const params = [selectedRow.menuId];
-    await removeMenu(params.join(','));
+    const res = await removeMenu(params.join(','));
     hide();
-    message.success('删除成功，即将刷新');
-    return true;
+    if (res.code === 200) {
+      message.success('删除成功，即将刷新');
+      return true;
+    } else {
+      message.error(res.msg || '删除失败');
+      return false;
+    }
   } catch (error) {
     hide();
     message.error('删除失败，请重试');
@@ -209,6 +229,7 @@ const MenuTableList: React.FC = () => {
           actionRef={actionRef}
           rowKey="menuId"
           key="menuList"
+          pagination={false}
           search={{
             labelWidth: 120,
           }}
@@ -246,7 +267,7 @@ const MenuTableList: React.FC = () => {
               }}
             >
               <DeleteOutlined />
-              <FormattedMessage id="pages.searchTable.delete" defaultMessage="删除" />
+              <FormattedMessage id="pages.searchTable.delete" defaultMessage="批量删除" />
             </Button>,
           ]}
           request={(params) =>

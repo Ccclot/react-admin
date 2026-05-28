@@ -67,7 +67,7 @@ const DeptForm: React.FC<DeptFormProps> = (props) => {
       })}
       open={props.open}
       forceRender
-      destroyOnClose
+      
       onOk={handleOk}
       onCancel={handleCancel}
     >
