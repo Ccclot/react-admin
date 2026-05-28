@@ -31,8 +31,13 @@ const CopilotKitWrapper: React.FC<CopilotKitWrapperProps> = ({
   children,
   showSidebar = false,
 }) => {
+  // 开发环境使用 localhost:4000，生产环境通过 Nginx 代理
+  const runtimeUrl = process.env.NODE_ENV === 'development'
+    ? 'http://localhost:4000/copilotkit'
+    : '/copilotkit';
+
   return (
-    <CopilotKit runtimeUrl="http://localhost:4000/copilotkit">
+    <CopilotKit runtimeUrl={runtimeUrl}>
       <CopilotKitInner>
         {children}
       </CopilotKitInner>

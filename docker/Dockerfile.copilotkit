@@ -1,0 +1,30 @@
+# ========================================
+# CopilotKit 后端 Dockerfile
+# ========================================
+
+FROM node:18-alpine
+
+WORKDIR /app
+
+# 设置 npm 镜像源
+RUN npm config set registry https://registry.npmmirror.com
+
+# 复制 package 文件
+COPY copilotkit-backend/package*.json ./
+
+# 安装依赖
+RUN npm install
+
+# 复制源代码
+COPY copilotkit-backend/ .
+
+# 设置时区
+ENV TZ=Asia/Shanghai
+RUN apk add --no-cache tzdata && \
+    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+# 暴露端口
+EXPOSE 4000
+
+# 启动命令
+CMD ["node", "server.js"]

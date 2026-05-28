@@ -1,0 +1,47 @@
+# Git
+.git
+.gitignore
+
+# Dependencies (will be installed during build)
+**/node_modules/
+**/target/
+
+# Build outputs (will be regenerated)
+dist/
+build/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# Logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment files (use .env instead)
+.env
+.env.local
+.env.*.local
+
+# Test files
+coverage/
+.nyc_output/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.swp
+*.swo
+
+# Documentation (not needed for deployment)
+doc/
+*.md
+!README.md

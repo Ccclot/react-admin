@@ -1,0 +1,138 @@
+version: '3.8'
+
+services:
+  # ========================================
+  # MySQL 数据库
+  # ========================================
+  mysql:
+    image: mysql:8.0
+    container_name: ruoyi-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-ruoyi123}
+      MYSQL_DATABASE: ry-vue
+      TZ: Asia/Shanghai
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ../sql/ry_react.sql:/docker-entrypoint-initdb.d/01-ry_react.sql:ro
+      - ../sql/quartz.sql:/docker-entrypoint-initdb.d/02-quartz.sql:ro
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_general_ci
+      - --default-authentication-plugin=mysql_native_password
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-ruoyi123}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ruoyi-network
+
+  # ========================================
+  # Redis 缓存
+  # ========================================
+  redis:
+    image: redis:7-alpine
+    container_name: ruoyi-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ruoyi-network
+
+  # ========================================
+  # Java 后端
+  # ========================================
+  java-backend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.java
+    container_name: ruoyi-java
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      # 数据库配置（Druid 多数据源配置）
+      SPRING_DATASOURCE_DRUID_MASTER_URL: jdbc:mysql://mysql:3306/ry-vue?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_DRUID_MASTER_USERNAME: root
+      SPRING_DATASOURCE_DRUID_MASTER_PASSWORD: ${MYSQL_ROOT_PASSWORD:-ruoyi123}
+      # Redis 配置
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+      # 文件上传路径
+      RUOYI_PROFILE: /home/ruoyi/uploadPath
+      # JVM 参数
+      JAVA_OPTS: -Xms256m -Xmx512m
+    ports:
+      - "8080:8080"
+    volumes:
+      - upload_data:/home/ruoyi/uploadPath
+    networks:
+      - ruoyi-network
+
+  # ========================================
+  # CopilotKit 后端 (AI 助手)
+  # ========================================
+  copilotkit-backend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.copilotkit
+    container_name: ruoyi-copilotkit
+    restart: unless-stopped
+    environment:
+      COPILOT_PORT: 4000
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-9cccde2027eea22723e1d45bb9ab267d:NWM5MmIwYjQ0NjVkMjI5MzI2MjA4N2Ni}
+      ANTHROPIC_BASE_URL: ${ANTHROPIC_BASE_URL:-https://maas-coding-api.cn-huabei-1.xf-yun.com/v2}
+      ANTHROPIC_MODEL: ${ANTHROPIC_MODEL:-astron-code-latest}
+    ports:
+      - "4000:4000"
+    networks:
+      - ruoyi-network
+
+  # ========================================
+  # React 前端 (Nginx)
+  # ========================================
+  react-frontend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.react
+    container_name: ruoyi-frontend
+    restart: unless-stopped
+    depends_on:
+      - java-backend
+      - copilotkit-backend
+    ports:
+      - "80:80"
+    networks:
+      - ruoyi-network
+
+# ========================================
+# 数据卷
+# ========================================
+volumes:
+  mysql_data:
+    driver: local
+  redis_data:
+    driver: local
+  upload_data:
+    driver: local
+
+# ========================================
+# 网络
+# ========================================
+networks:
+  ruoyi-network:
+    driver: bridge
