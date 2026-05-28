@@ -12,12 +12,11 @@ WORKDIR /build
 RUN npm config set registry https://registry.npmmirror.com
 
 # 复制 package 文件
-COPY react-ui/package.json react-ui/pnpm-lock.yaml ./
+COPY react-ui/package.json ./
 
 # 安装 pnpm 并下载依赖
 RUN npm install -g pnpm@10.14.0 && \
-    pnpm install --frozen-lockfile
-
+      pnpm install
 # 复制源代码
 COPY react-ui/ .
 
