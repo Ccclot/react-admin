@@ -188,4 +188,79 @@ declare namespace API {
     filter?: string;
     sorter?: string;
   };
+
+  // 快书模块类型定义
+  namespace Kuaishu {
+    // 企业信息
+    interface Enterprise {
+      id?: number;
+      name?: string;
+      taxId?: string;
+      loginTaxId?: string;
+      type?: string;
+      category?: string;
+      scale?: string;
+      state?: string;
+      agentType?: number;
+      loginType?: number;
+      operateId?: string;
+      password?: string;
+      personTaxAccount?: string;
+      personTaxPassword?: string;
+      personTaxType?: string;
+      province?: string;
+      legalPerson?: string;
+      address?: string;
+      phone?: string;
+      bankName?: string;
+      bankAccount?: string;
+      industryCode?: string;
+      industryTypeDl?: string;
+      accountantSystem?: number;
+      createAccount?: string;
+      startAccount?: string;
+      endAccount?: string;
+      defaultRecorder?: string;
+      defaultAuditor?: string;
+      profitRatio?: number;
+      deptId?: number;
+      userId?: number;
+      accountId?: string;
+      createTime?: string;
+      updateTime?: string;
+      remark?: string;
+    }
+
+    interface EnterpriseListParams {
+      id?: number;
+      name?: string;
+      taxId?: string;
+      loginTaxId?: string;
+      type?: string;
+      category?: string;
+      scale?: string;
+      state?: string;
+      agentType?: number;
+      loginType?: number;
+      operateId?: string;
+      province?: string;
+      deptId?: number;
+      userId?: number;
+      pageNum?: number;
+      pageSize?: number;
+    }
+
+    interface EnterprisePageResult {
+      code: number;
+      msg: string;
+      rows: Enterprise[];
+      total: number;
+    }
+
+    interface EnterpriseInfoResult {
+      code: number;
+      msg: string;
+      data: Enterprise;
+    }
+  }
 }
